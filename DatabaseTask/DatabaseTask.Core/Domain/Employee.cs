@@ -1,13 +1,29 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DatabaseTask.Core.Domain
 {
+    public enum Gender { Male, Female }
     public class Employee
     {
         [Key]
         public Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public IEnumerable<Position> PositionName { get; set; }
+            = new List<Position>();
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public Gender Gender { get; set; }
+        public int Age { get; set; }
+        public DateOnly BirthDate { get; set; }
+        public int Salary { get; set; }
+        public int PhoneNumber { get; set; }
+        public string MailAadress { get; set; } = string.Empty;
+        public DateOnly HireDate { get; set; }
+        public DateOnly LeaveDate { get; set; }
+        public IEnumerable<Group> Groups { get; set; }
+            = new List<Group>();
+
+
 
         /// ESIMENE HINDELINE HARJUTUS
         /// Nõuded ja tegevus:
