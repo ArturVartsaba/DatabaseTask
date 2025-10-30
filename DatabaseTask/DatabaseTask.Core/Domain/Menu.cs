@@ -11,7 +11,7 @@ namespace DatabaseTask.Core.Domain
         public string Lunch { get; set; } = string.Empty;
         public string DinnerSnack { get; set; } = string.Empty;
         public string Dinner { get; set; } = string.Empty;
-        public DateOnly DateFood { get; set; }
+        public DateTime DateFood { get; set; }
         public int Portions { get; set; }
 
         public IEnumerable<Group> Groups { get; set; }

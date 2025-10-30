@@ -7,13 +7,13 @@ namespace DatabaseTask.Core.Domain
     {
         [Key]
         public Guid Id { get; set; }
-        public DateOnly StartDate { get; set; }
-        public DateOnly EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
-        public IEnumerable<Child> Child { get; set; }
+        public IEnumerable<Child> Childs { get; set; }
             = new List<Child>();
 
-        public IEnumerable<Group> Group { get; set; }
+        public IEnumerable<Group> Groups { get; set; }
             = new List<Group>();
     }
 }

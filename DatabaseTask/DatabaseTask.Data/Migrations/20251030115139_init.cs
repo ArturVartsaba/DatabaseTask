@@ -16,8 +16,8 @@ namespace DatabaseTask.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StartDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    EndDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -30,8 +30,8 @@ namespace DatabaseTask.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StartDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    EndDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,14 +45,7 @@ namespace DatabaseTask.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Salary = table.Column<int>(type: "int", nullable: false),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
-                    MailAadress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HireDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    LeaveDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +62,7 @@ namespace DatabaseTask.Data.Migrations
                     Lunch = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DinnerSnack = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Dinner = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateFood = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateFood = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Portions = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -82,7 +75,7 @@ namespace DatabaseTask.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    RegDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,8 +88,8 @@ namespace DatabaseTask.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PositionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    EndDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -113,19 +106,17 @@ namespace DatabaseTask.Data.Migrations
                 name: "Child",
                 columns: table => new
                 {
-                    ChildID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ChildAbsenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ChildGroupHistoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     QueueId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Child", x => x.ChildID);
+                    table.PrimaryKey("PK_Child", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Child_ChildAbsence_ChildAbsenceId",
                         column: x => x.ChildAbsenceId,
@@ -154,6 +145,7 @@ namespace DatabaseTask.Data.Migrations
                     RoomNr = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ChildAbsenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ChildGroupHistoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ChildId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     MenuId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     QueueId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -170,6 +162,11 @@ namespace DatabaseTask.Data.Migrations
                         name: "FK_Group_ChildGroupHistory_ChildGroupHistoryId",
                         column: x => x.ChildGroupHistoryId,
                         principalTable: "ChildGroupHistory",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Group_Child_ChildId",
+                        column: x => x.ChildId,
+                        principalTable: "Child",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Group_Employee_EmployeeId",
@@ -214,6 +211,11 @@ namespace DatabaseTask.Data.Migrations
                 column: "ChildGroupHistoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Group_ChildId",
+                table: "Group",
+                column: "ChildId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Group_EmployeeId",
                 table: "Group",
                 column: "EmployeeId");
@@ -238,13 +240,19 @@ namespace DatabaseTask.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Child");
-
-            migrationBuilder.DropTable(
                 name: "Group");
 
             migrationBuilder.DropTable(
                 name: "Position");
+
+            migrationBuilder.DropTable(
+                name: "Child");
+
+            migrationBuilder.DropTable(
+                name: "Menu");
+
+            migrationBuilder.DropTable(
+                name: "Employee");
 
             migrationBuilder.DropTable(
                 name: "ChildAbsence");
@@ -253,13 +261,7 @@ namespace DatabaseTask.Data.Migrations
                 name: "ChildGroupHistory");
 
             migrationBuilder.DropTable(
-                name: "Menu");
-
-            migrationBuilder.DropTable(
                 name: "Queue");
-
-            migrationBuilder.DropTable(
-                name: "Employee");
         }
     }
 }

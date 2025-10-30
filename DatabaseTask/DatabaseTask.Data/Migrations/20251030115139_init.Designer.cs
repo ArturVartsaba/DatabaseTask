@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseTask.Data.Migrations
 {
     [DbContext(typeof(DatabaseTaskBbContext))]
-    [Migration("20251024133641_init")]
+    [Migration("20251030115139_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -27,15 +27,9 @@ namespace DatabaseTask.Data.Migrations
 
             modelBuilder.Entity("DatabaseTask.Core.Domain.Child", b =>
                 {
-                    b.Property<Guid>("ChildID")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
 
                     b.Property<Guid?>("ChildAbsenceId")
                         .HasColumnType("uniqueidentifier");
@@ -43,12 +37,12 @@ namespace DatabaseTask.Data.Migrations
                     b.Property<Guid?>("ChildGroupHistoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -57,7 +51,7 @@ namespace DatabaseTask.Data.Migrations
                     b.Property<Guid?>("QueueId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ChildID");
+                    b.HasKey("Id");
 
                     b.HasIndex("ChildAbsenceId");
 
@@ -74,15 +68,15 @@ namespace DatabaseTask.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -95,11 +89,11 @@ namespace DatabaseTask.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -112,38 +106,16 @@ namespace DatabaseTask.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("HireDate")
-                        .HasColumnType("date");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("LeaveDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("MailAadress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Salary")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -163,6 +135,9 @@ namespace DatabaseTask.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid?>("ChildGroupHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ChildId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("EmployeeId")
@@ -192,6 +167,8 @@ namespace DatabaseTask.Data.Migrations
 
                     b.HasIndex("ChildGroupHistoryId");
 
+                    b.HasIndex("ChildId");
+
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("MenuId");
@@ -207,8 +184,8 @@ namespace DatabaseTask.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("DateFood")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DateFood")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Dinner")
                         .IsRequired()
@@ -247,15 +224,15 @@ namespace DatabaseTask.Data.Migrations
                     b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PositionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -270,8 +247,8 @@ namespace DatabaseTask.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("RegDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("RegDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -281,27 +258,31 @@ namespace DatabaseTask.Data.Migrations
             modelBuilder.Entity("DatabaseTask.Core.Domain.Child", b =>
                 {
                     b.HasOne("DatabaseTask.Core.Domain.ChildAbsence", null)
-                        .WithMany("Child")
+                        .WithMany("Childs")
                         .HasForeignKey("ChildAbsenceId");
 
                     b.HasOne("DatabaseTask.Core.Domain.ChildGroupHistory", null)
-                        .WithMany("Child")
+                        .WithMany("Childs")
                         .HasForeignKey("ChildGroupHistoryId");
 
                     b.HasOne("DatabaseTask.Core.Domain.Queue", null)
-                        .WithMany("Child")
+                        .WithMany("Childs")
                         .HasForeignKey("QueueId");
                 });
 
             modelBuilder.Entity("DatabaseTask.Core.Domain.Group", b =>
                 {
                     b.HasOne("DatabaseTask.Core.Domain.ChildAbsence", null)
-                        .WithMany("Group")
+                        .WithMany("Groups")
                         .HasForeignKey("ChildAbsenceId");
 
                     b.HasOne("DatabaseTask.Core.Domain.ChildGroupHistory", null)
-                        .WithMany("Group")
+                        .WithMany("Groups")
                         .HasForeignKey("ChildGroupHistoryId");
+
+                    b.HasOne("DatabaseTask.Core.Domain.Child", null)
+                        .WithMany("Groups")
+                        .HasForeignKey("ChildId");
 
                     b.HasOne("DatabaseTask.Core.Domain.Employee", null)
                         .WithMany("Groups")
@@ -312,7 +293,7 @@ namespace DatabaseTask.Data.Migrations
                         .HasForeignKey("MenuId");
 
                     b.HasOne("DatabaseTask.Core.Domain.Queue", null)
-                        .WithMany("Group")
+                        .WithMany("Groups")
                         .HasForeignKey("QueueId");
                 });
 
@@ -323,18 +304,23 @@ namespace DatabaseTask.Data.Migrations
                         .HasForeignKey("EmployeeId");
                 });
 
+            modelBuilder.Entity("DatabaseTask.Core.Domain.Child", b =>
+                {
+                    b.Navigation("Groups");
+                });
+
             modelBuilder.Entity("DatabaseTask.Core.Domain.ChildAbsence", b =>
                 {
-                    b.Navigation("Child");
+                    b.Navigation("Childs");
 
-                    b.Navigation("Group");
+                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("DatabaseTask.Core.Domain.ChildGroupHistory", b =>
                 {
-                    b.Navigation("Child");
+                    b.Navigation("Childs");
 
-                    b.Navigation("Group");
+                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("DatabaseTask.Core.Domain.Employee", b =>
@@ -351,9 +337,9 @@ namespace DatabaseTask.Data.Migrations
 
             modelBuilder.Entity("DatabaseTask.Core.Domain.Queue", b =>
                 {
-                    b.Navigation("Child");
+                    b.Navigation("Childs");
 
-                    b.Navigation("Group");
+                    b.Navigation("Groups");
                 });
 #pragma warning restore 612, 618
         }

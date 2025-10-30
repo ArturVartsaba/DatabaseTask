@@ -5,11 +5,11 @@ namespace DatabaseTask.Core.Domain
     public class Child
     {
         [Key]
-        public Guid ChildID { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty; 
-        public Gender Gender { get; set; }
-        public int Age { get; set; }
-        public DateOnly BirthDate { get; set; }
+        public DateTime DateOfBirth { get; set; }
+
+        public IEnumerable<Group> Groups { get; set; } = new List<Group>();
     }
 }
